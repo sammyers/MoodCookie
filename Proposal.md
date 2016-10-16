@@ -29,4 +29,7 @@ Equal. ;)
 Jk.
 We will try to work in the same space but on different parts of the app at a time. (The space will be David and Bill's room because we will have access to teaching team help and ample floor space for independent work and yoga.) 
 
+We all want to get a chance to work with the APIs, so we will divide work into modular tasks based on the idea that everyone will get to try everything, like a buffet. 
+
 ## Where We Plan to be by 10/20
+We will have a framework of the app built, with our main fragments and databse interactions, as well as basic interactions with the two APIs. 
