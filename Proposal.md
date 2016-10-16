@@ -31,5 +31,7 @@ We will try to work in the same space but on different parts of the app at a tim
 
 We all want to get a chance to work with the APIs, so we will divide work into modular tasks based on the idea that everyone will get to try everything, like a buffet. 
 
+See the project board for the actual division of issues among team members so far.
+
 ## Where We Plan to be by 10/20
 We will have a framework of the app built, with our main fragments and databse interactions, as well as basic interactions with the two APIs. 
