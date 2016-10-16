@@ -1,9 +1,9 @@
 # Lab 2 Project Proposal
 
 ## Our Team
-  - Mary "If I tell you, I'll have to kill you" Keenan
-  - Sam "I'm over it" Myers
-  - Cecelia "Mookie" Auerswald
+  - Mary "If I tell you, I'll have to kill you" Keenan, the Janitor
+  - Sam "I'm over it" Myers, the Secretary
+  - Cecelia "Mookie" Auerswald, the Bossman
  
 ## Our APIs
   - Indico Facial Emotion Recognition
