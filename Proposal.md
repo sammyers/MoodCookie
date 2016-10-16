@@ -2,8 +2,8 @@
 
 ## Our Team
   - Mary "If I tell you, I'll have to kill you" Keenan, the Artist
-  - Sam "I'm over it" Myers, the Secretary
-  - Cecelia "Mookie" Auerswald, the Bossman
+  - Sam "I'm over it" Myers, the Pizza Scholar
+  - Cecelia "Mookie" Auerswald, the Boss-woman
  
 ## Our APIs
   - Indico Facial Emotion Recognition
