@@ -1,7 +1,7 @@
 # Lab 2 Project Proposal
 
 ## Our Team
-  - Mary "If I tell you, I'll have to kill you" Keenan, the Janitor
+  - Mary "If I tell you, I'll have to kill you" Keenan, the Artist
   - Sam "I'm over it" Myers, the Secretary
   - Cecelia "Mookie" Auerswald, the Bossman
  
