@@ -1,4 +1,4 @@
-package cecelia.moodcookie;
+package cecelia.moodcookie.db;
 
 import android.provider.BaseColumns;
 
