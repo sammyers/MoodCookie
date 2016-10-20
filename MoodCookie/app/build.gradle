@@ -5,7 +5,7 @@ android {
     buildToolsVersion "24.0.2"
     defaultConfig {
         applicationId "cecelia.moodcookie"
-        minSdkVersion 15
+        minSdkVersion 23
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -25,5 +25,6 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.android.support:support-v4:24.2.1'
     testCompile 'junit:junit:4.12'
 }

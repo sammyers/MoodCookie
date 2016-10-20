@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MoodCookie</string>
+
+    <string name="take_picture_button">Snap a pic!</string>
 </resources>
