@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.6"
+        android:src="@drawable/placeholder"
+        android:layout_margin="20dp"
+        android:id="@+id/pic_view"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.15"
+        android:text="Use this pic?"
+        android:textSize="40sp"
+        android:layout_margin="10dp"
+        android:textAlignment="center"
+        android:layout_gravity="center" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.25"
+        android:orientation="horizontal"
+        android:id="@+id/use_pic_buttons"
+        android:layout_margin="20dp">
+
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:src="@drawable/check"
+            android:background="@color/background"
+            android:layout_margin="@dimen/small_margin"
+            android:id="@+id/yes_pic"/>
+
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:src="@drawable/no"
+            android:background="@color/background"
+            android:layout_margin="@dimen/small_margin"
+            android:id="@+id/no_pic"/>
+
+    </LinearLayout>
+
+</LinearLayout>

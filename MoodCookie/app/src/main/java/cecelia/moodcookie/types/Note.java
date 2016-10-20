@@ -1,8 +1,5 @@
 package cecelia.moodcookie.types;
 
-/**
- * Created by smyers on 10/17/2016.
- */
 
 public class Note {
 
