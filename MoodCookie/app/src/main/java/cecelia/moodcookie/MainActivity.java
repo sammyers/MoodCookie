@@ -9,6 +9,7 @@ import android.util.Log;
 import java.util.ArrayList;
 
 import cecelia.moodcookie.db.NoteDatabaseHelper;
+import cecelia.moodcookie.types.Mood;
 import cecelia.moodcookie.types.Note;
 
 public class MainActivity extends AppCompatActivity {
