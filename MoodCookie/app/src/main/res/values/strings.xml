@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">MoodCookie</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="snap_pic">Snap a pic!</string>
+    <string name="choose_photo">Choose from your library</string>
 </resources>
