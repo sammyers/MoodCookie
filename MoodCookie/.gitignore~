@@ -5,6 +5,8 @@
 /build
 /captures
 .externalNativeBuild
+<<<<<<< HEAD
 app/src/main/res/values/API_keys
+=======
 .idea
-
+>>>>>>> c3b9f998b20a10298288a94f7c5e3d7fa94698da
