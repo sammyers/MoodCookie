@@ -2,6 +2,8 @@ package cecelia.moodcookie;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +17,9 @@ import cecelia.moodcookie.types.Note;
 public class MainActivity extends AppCompatActivity {
 
     NoteDatabaseHelper dbHelper;
+
+    private Bitmap mImageBitmap;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,14 +34,34 @@ public class MainActivity extends AppCompatActivity {
             Log.d("Main Activity", note.getText());
         }
 
-        addMainPageFragment();
+        startHomepageFragment();
 
     }
 
-    public void addMainPageFragment() {
+    public void startHomepageFragment() {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_holder, new HomepageFragment(), "CURRENT_FRAGMENT");
         fragmentTransaction.commit();
+    }
+
+    public void startConfirmationPageFragment() {
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_holder, new ConfirmationPageFragment(), "CURRENT_FRAGMENT");
+        fragmentTransaction.commit();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            handleCameraPhoto(data);
+        }
+    }
+
+    private void handleCameraPhoto(Intent intent) {
+        Bundle extras = intent.getExtras();
+        this.mImageBitmap = (Bitmap) extras.get("data");
+        startConfirmationPageFragment();
     }
 }
