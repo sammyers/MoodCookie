@@ -15,7 +15,7 @@ public class MySingleton {
     private RequestQueue mRequestQueue;
     private static Context mCtx;
 
-    private MySingleton(Context context) {
+    public MySingleton(Context context) {
         mCtx = context;
         mRequestQueue = getRequestQueue();
     }
