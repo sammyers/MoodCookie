@@ -1,5 +1,6 @@
 package cecelia.moodcookie;
 
+import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -15,7 +16,7 @@ public class HomepageFragment extends Fragment {
 
     private ImageButton cameraButton;
     private ImageButton libraryButton;
-
+    
     public HomepageFragment() {}
 
     @Override
@@ -42,7 +43,21 @@ public class HomepageFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "Library button clicked.");
+                dispatchhGalleryIntent();
             }
         });
+    }
+
+    private void dispatchhGalleryIntent() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        MainActivity activity = getMainActivity();
+        activity.startActivityForResult(Intent.createChooser(intent,
+                "Select Picture"), activity.SELECT_GALLERY_IMAGE);
+    }
+
+    private MainActivity getMainActivity() {
+        return (MainActivity) getActivity();
     }
 }
