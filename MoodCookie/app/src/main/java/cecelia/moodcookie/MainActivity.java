@@ -1,5 +1,6 @@
 package cecelia.moodcookie;
 
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -15,12 +16,14 @@ import cecelia.moodcookie.types.Note;
 public class MainActivity extends AppCompatActivity {
 
     NoteDatabaseHelper dbHelper;
+    FragmentManager fragmentManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         this.dbHelper = new NoteDatabaseHelper(this);
+        this.fragmentManager = getFragmentManager();
 
         // read notes from the database
         ArrayList<Note> notes = dbHelper.getAllNotes();
@@ -33,25 +36,22 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void startDisplayPageFragment() {
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_holder, new DisplayPageFragment(), "CURRENT_FRAGMENT");
+    private void startFragment(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = this.fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_holder, fragment, "CURRENT_FRAGMENT");
         fragmentTransaction.commit();
+    }
+
+    public void startDisplayPageFragment() {
+        startFragment(new DisplayPageFragment());
     }
 
     public void startHomepageFragment() {
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_holder, new HomepageFragment(), "CURRENT_FRAGMENT");
-        fragmentTransaction.commit();
+        startFragment(new HomepageFragment());
     }
 
     public void startConfirmationPageFragment() {
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_holder, new ConfirmationPageFragment(), "CURRENT_FRAGMENT");
-        fragmentTransaction.commit();
+        startFragment(new ConfirmationPageFragment());
     }
 
 }
