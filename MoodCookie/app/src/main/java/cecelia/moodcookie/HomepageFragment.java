@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
+import cecelia.moodcookie.camera.PhotoHandler;
+
 public class HomepageFragment extends Fragment {
 
     private static final String TAG = "HomepageFragment";
@@ -20,6 +22,8 @@ public class HomepageFragment extends Fragment {
 
     private ImageButton cameraButton;
     private ImageButton libraryButton;
+
+    private PhotoHandler photoHandler;
 
     public HomepageFragment() {}
 
@@ -32,6 +36,8 @@ public class HomepageFragment extends Fragment {
 
         setOnClickListeners();
 
+        photoHandler = new PhotoHandler(getContext());
+
         return view;
     }
 
@@ -40,7 +46,7 @@ public class HomepageFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "Camera button clicked.");
-                dispatchTakePictureIntent();
+                photoHandler.dispatchTakePictureIntent();
             }
         });
 
@@ -50,12 +56,5 @@ public class HomepageFragment extends Fragment {
                 Log.d(TAG, "Library button clicked.");
             }
         });
-    }
-
-    private void dispatchTakePictureIntent() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-        }
     }
 }
