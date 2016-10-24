@@ -7,28 +7,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="@string/app_name"
-            android:layout_margin="@dimen/medium_margin"
-            android:textSize="@dimen/title_text_size"
-            android:textAlignment="center"
-            android:textColor="@color/colorPrimary"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <ImageButton
             android:layout_height="0dp"
             android:layout_weight="0.4"
             android:layout_width="wrap_content"
-            android:src="@drawable/camera_icon"
+            android:src="@drawable/photo_cams"
             android:id="@+id/pic_with_camera"
             android:background="@color/background"
             android:layout_marginTop="@dimen/small_margin"
@@ -39,7 +24,7 @@
             android:layout_weight="0.1"
             android:layout_width="wrap_content"
             android:text="or"
-            android:layout_margin="@dimen/medium_margin"
+            android:layout_margin="@dimen/small_margin"
             android:textSize="30sp"
             android:textAlignment="center"
             android:layout_gravity="center"
@@ -47,9 +32,9 @@
 
         <ImageButton
             android:layout_height="0dp"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_weight="0.4"
-            android:src="@drawable/grid"
+            android:src="@drawable/lib"
             android:id="@+id/choose_from_library"
             android:background="@color/background"
             android:layout_margin="@dimen/small_margin"
