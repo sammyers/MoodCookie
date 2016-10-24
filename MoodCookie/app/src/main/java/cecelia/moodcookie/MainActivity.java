@@ -29,14 +29,29 @@ public class MainActivity extends AppCompatActivity {
             Log.d("Main Activity", note.getText());
         }
 
-        addMainPageFragment();
+        startHomepageFragment();
 
     }
 
-    public void addMainPageFragment() {
+    public void startDisplayPageFragment() {
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_holder, new DisplayPageFragment(), "CURRENT_FRAGMENT");
+        fragmentTransaction.commit();
+    }
+
+    public void startHomepageFragment() {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_holder, new HomepageFragment(), "CURRENT_FRAGMENT");
         fragmentTransaction.commit();
     }
+
+    public void startConfirmationPageFragment() {
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_holder, new ConfirmationPageFragment(), "CURRENT_FRAGMENT");
+        fragmentTransaction.commit();
+    }
+
 }
