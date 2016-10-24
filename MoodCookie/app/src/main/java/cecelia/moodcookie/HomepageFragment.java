@@ -16,7 +16,7 @@ public class HomepageFragment extends Fragment {
 
     private ImageButton cameraButton;
     private ImageButton libraryButton;
-    
+
     public HomepageFragment() {}
 
     @Override

@@ -1,5 +1,6 @@
 package cecelia.moodcookie;
 
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
@@ -20,13 +21,15 @@ public class MainActivity extends AppCompatActivity {
 
     NoteDatabaseHelper dbHelper;
     static final int SELECT_GALLERY_IMAGE = 1;
-
+    FragmentManager fragmentManager;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         this.dbHelper = new NoteDatabaseHelper(this);
+        this.fragmentManager = getFragmentManager();
 
         // read notes from the database
         ArrayList<Note> notes = dbHelper.getAllNotes();
@@ -35,14 +38,13 @@ public class MainActivity extends AppCompatActivity {
             Log.d("Main Activity", note.getText());
         }
 
-        addMainPageFragment();
+        startHomepageFragment();
 
     }
 
-    public void addMainPageFragment() {
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_holder, new HomepageFragment(), "CURRENT_FRAGMENT");
+    private void startFragment(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = this.fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_holder, fragment, "CURRENT_FRAGMENT");
         fragmentTransaction.commit();
     }
 
@@ -74,4 +76,17 @@ public class MainActivity extends AppCompatActivity {
         // this is our fallback here
         return uri.getPath();
     }
+
+    public void startDisplayPageFragment() {
+        startFragment(new DisplayPageFragment());
+    }
+
+    public void startHomepageFragment() {
+        startFragment(new HomepageFragment());
+    }
+
+    public void startConfirmationPageFragment() {
+        startFragment(new ConfirmationPageFragment());
+    }
+
 }
