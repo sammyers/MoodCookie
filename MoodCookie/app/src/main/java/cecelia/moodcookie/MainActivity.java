@@ -17,6 +17,8 @@ public class MainActivity extends AppCompatActivity {
 
     NoteDatabaseHelper dbHelper;
     FragmentManager fragmentManager;
+    IndicoHandler indicoHandler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,33 +27,26 @@ public class MainActivity extends AppCompatActivity {
         this.dbHelper = new NoteDatabaseHelper(this);
         this.fragmentManager = getFragmentManager();
 
-        // read notes from the database
-        ArrayList<Note> notes = dbHelper.getAllNotes();
-
-        for (Note note : notes) {
-            Log.d("Main Activity", note.getText());
-        }
-
         startHomepageFragment();
 
     }
 
-    private void startFragment(Fragment fragment) {
+    private void startFragment(Fragment fragment, String tag) {
         FragmentTransaction fragmentTransaction = this.fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_holder, fragment, "CURRENT_FRAGMENT");
+        fragmentTransaction.replace(R.id.fragment_holder, fragment, tag);
         fragmentTransaction.commit();
     }
 
-    public void startDisplayPageFragment() {
-        startFragment(new DisplayPageFragment());
+    public void startDisplayPageFragment(String filePath) {
+        startFragment(new DisplayPageFragment(), filePath);
     }
 
     public void startHomepageFragment() {
-        startFragment(new HomepageFragment());
+        startFragment(new HomepageFragment(), "");
     }
 
     public void startConfirmationPageFragment() {
-        startFragment(new ConfirmationPageFragment());
+        startFragment(new ConfirmationPageFragment(), "");
     }
 
 }

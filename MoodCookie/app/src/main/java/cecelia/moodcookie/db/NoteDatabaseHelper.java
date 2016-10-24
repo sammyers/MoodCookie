@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
 
+import cecelia.moodcookie.types.Mood;
 import cecelia.moodcookie.types.Note;
 
 
@@ -81,6 +82,46 @@ public class NoteDatabaseHelper extends SQLiteOpenHelper {
                 String mood = cursor.getString(cursor.getColumnIndex(NoteContract.NoteEntry.COLUMN_NAME_MOOD));
 
                 allNotes.add(new Note(id, text, mood));
+                cursor.moveToNext();
+            } while (!cursor.isLast());
+        }
+
+        cursor.close();
+        db.close();
+
+        return allNotes;
+    }
+
+    public ArrayList<Note> getNotesByMood(Mood mood) {
+        SQLiteDatabase db = getReadableDatabase();
+        String[] projection = {
+                NoteContract.NoteEntry._ID,
+                NoteContract.NoteEntry.COLUMN_NAME_TEXT,
+                NoteContract.NoteEntry.COLUMN_NAME_MOOD
+        };
+
+        String selection = NoteContract.NoteEntry.COLUMN_NAME_MOOD + " = ?";
+        String sortOrder = NoteContract.NoteEntry.COLUMN_NAME_TEXT + " DESC";
+        String[] selectionArgs = {mood.toString()};
+
+        Cursor cursor = db.query(
+                NoteContract.NoteEntry.TABLE_NAME,   // The table to query
+                projection,                          // The columns to return
+                selection,                                // The columns for the WHERE clause
+                selectionArgs,                                // The values for the WHERE clause
+                null,                                // don't group the rows
+                null,                                // don't filter by row groups
+                sortOrder                            // The sort order
+        );
+
+        final ArrayList<Note> allNotes = new ArrayList<>();
+
+        if (cursor.moveToFirst()) {
+            do {
+                long id = cursor.getLong(cursor.getColumnIndex(NoteContract.NoteEntry._ID));
+                String text = cursor.getString(cursor.getColumnIndex(NoteContract.NoteEntry.COLUMN_NAME_TEXT));
+
+                allNotes.add(new Note(id, text, mood.toString()));
                 cursor.moveToNext();
             } while (!cursor.isLast());
         }
