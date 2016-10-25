@@ -5,37 +5,38 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.database.Cursor;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
 import java.util.ArrayList;
 
+import cecelia.moodcookie.camera.CameraInterface;
+import cecelia.moodcookie.camera.PhotoHandler;
 import cecelia.moodcookie.db.NoteDatabaseHelper;
 import cecelia.moodcookie.types.Mood;
 import cecelia.moodcookie.types.Note;
-
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements CameraInterface {
 
     static final String TAG = "MainActivity";
 
     NoteDatabaseHelper dbHelper;
-
+    private PhotoHandler photoHandler;
     private Bitmap mImageBitmap;
     static final int SELECT_GALLERY_IMAGE = 1;
     static final int REQUEST_IMAGE_CAPTURE = 1;
-    FragmentManager fragmentManager;
+
+    private FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        this.dbHelper = new NoteDatabaseHelper(this);
-        this.fragmentManager = getFragmentManager();
+        dbHelper = new NoteDatabaseHelper(this);
+        photoHandler = new PhotoHandler(this);
+        fragmentManager = getFragmentManager();
 
         // read notes from the database
         ArrayList<Note> notes = dbHelper.getAllNotes();
@@ -45,13 +46,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
         startHomepageFragment();
+
     }
 
-    private void handleCameraPhoto(Intent intent) {
-        Bundle extras = intent.getExtras();
-        this.mImageBitmap = (Bitmap) extras.get("data");
+    private void handleCameraPhoto() {
         startConfirmationPageFragment();
     }
+
     private void startFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = this.fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_holder, fragment, "CURRENT_FRAGMENT");
@@ -64,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                 Uri selectedImageUri = data.getData();
                 String selectedImagePath = getPath(selectedImageUri);
             } else if (requestCode == REQUEST_IMAGE_CAPTURE) {
-                handleCameraPhoto(data);
+                handleCameraPhoto();
             }
         }
     }
@@ -89,5 +90,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void startConfirmationPageFragment() {
         startFragment(new ConfirmationPageFragment());
+    }
+
+    public PhotoHandler getPhotoHandler() {
+        return photoHandler;
     }
 }
