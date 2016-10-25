@@ -10,7 +10,10 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        buildConfigField("String","API_KEY",API_KEY)
+
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -27,4 +30,16 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support:support-v4:24.2.1'
     testCompile 'junit:junit:4.12'
+    compile 'com.android.support:design:24.2.1'
+    compile 'com.android.support:support-core-utils:24.2.1'
+    compile 'com.jakewharton:butterknife:8.4.0'
+//    compile 'io.indico:indico:3.1.0' //not sure if this is really working so I installed stuff below
+    compile 'io.indico:android:1.0.2'
+//    compile 'org.apache.httpcomponents:httpclient-android:4.3.5' //necessary for indico API
+//    compile files('libs/io.indico-3.14.0-jar-with-dependencies.jar') //necessary for indico API
+//    compile files('libs/libcore-dex-3.jar')
+    compile 'com.android.volley:volley:1.0.0'
+    compile 'com.google.code.gson:gson:2.6.2'
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
 }
