@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,11 +16,16 @@ import cecelia.moodcookie.camera.CameraInterface;
 import cecelia.moodcookie.camera.PhotoHandler;
 import cecelia.moodcookie.db.NoteDatabaseHelper;
 import cecelia.moodcookie.types.Note;
-
 public class MainActivity extends AppCompatActivity implements CameraInterface {
 
-    private NoteDatabaseHelper dbHelper;
+    static final String TAG = "MainActivity";
+
+    NoteDatabaseHelper dbHelper;
     private PhotoHandler photoHandler;
+
+    static final int SELECT_GALLERY_IMAGE = 1;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+
     private FragmentManager fragmentManager;
 
     @Override
@@ -42,13 +48,6 @@ public class MainActivity extends AppCompatActivity implements CameraInterface {
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            handleCameraPhoto();
-        }
-    }
-
     private void handleCameraPhoto() {
         startConfirmationPageFragment();
     }
@@ -58,6 +57,27 @@ public class MainActivity extends AppCompatActivity implements CameraInterface {
 //        fragmentTransaction.setCustomAnimations(R.animator.enter_from_left, R.animator.exit_to_right);
         fragmentTransaction.replace(R.id.fragment_holder, fragment, "CURRENT_FRAGMENT");
         fragmentTransaction.commit();
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == SELECT_GALLERY_IMAGE) {
+                Uri selectedImageUri = data.getData();
+                String selectedImagePath = getPath(selectedImageUri);
+            } else if (requestCode == REQUEST_IMAGE_CAPTURE) {
+                handleCameraPhoto();
+            }
+        }
+    }
+
+    public String getPath(Uri uri) {
+        // just some safety built in
+        if( uri == null ) {
+            Log.d(TAG, "The chosen image was invalid.");
+            return null;
+        }
+        // this is our fallback here
+        return uri.getPath();
     }
 
     public void startDisplayPageFragment() {
