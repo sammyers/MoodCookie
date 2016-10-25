@@ -3,10 +3,14 @@ package cecelia.moodcookie.camera;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
+import android.widget.ImageView;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,7 +40,7 @@ public class PhotoHandler {
                 ".jpg",
                 storageDir
         );
-        mCurrentPhotoPath = "file:" + image.getAbsolutePath();
+        mCurrentPhotoPath = image.getAbsolutePath();
         return image;
     }
 
@@ -46,9 +50,7 @@ public class PhotoHandler {
             File photoFile = null;
             try {
                 photoFile = createImageFile();
-            } catch (IOException ex) {
-
-            }
+            } catch (IOException ex) { }
 
             if (photoFile != null) {
                 Uri photoURI = FileProvider.getUriForFile(
@@ -59,6 +61,20 @@ public class PhotoHandler {
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 ((Activity) context).startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
+        }
+    }
+
+    public void setPhoto(ImageView imageView) {
+        if (mCurrentPhotoPath != null) {
+            Bitmap imageBitmap = BitmapFactory.decodeFile(mCurrentPhotoPath);
+            int width = imageBitmap.getWidth();
+            int height = imageBitmap.getHeight();
+
+            Matrix matrix = new Matrix();
+            matrix.postRotate(90);
+
+            Bitmap rotatedBitmap = Bitmap.createBitmap(imageBitmap, 0, 0, width, height, matrix, true);
+            imageView.setImageBitmap(rotatedBitmap);
         }
     }
 }

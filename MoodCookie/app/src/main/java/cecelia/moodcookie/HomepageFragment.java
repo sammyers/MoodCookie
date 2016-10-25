@@ -12,9 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
+import cecelia.moodcookie.camera.CameraInterface;
 import cecelia.moodcookie.camera.PhotoHandler;
 
 public class HomepageFragment extends Fragment {
+
+    private CameraInterface mInterface;
 
     private static final String TAG = "HomepageFragment";
 
@@ -23,20 +26,18 @@ public class HomepageFragment extends Fragment {
     private ImageButton cameraButton;
     private ImageButton libraryButton;
 
-    private PhotoHandler photoHandler;
-
     public HomepageFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
+        mInterface = (CameraInterface) getActivity();
+
         View view = inflater.inflate(R.layout.homepage_fragment, container, false);
 
         cameraButton = (ImageButton) view.findViewById(R.id.pic_with_camera);
         libraryButton = (ImageButton) view.findViewById(R.id.choose_from_library);
 
         setOnClickListeners();
-
-        photoHandler = new PhotoHandler(getContext());
 
         return view;
     }
@@ -46,7 +47,7 @@ public class HomepageFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "Camera button clicked.");
-                photoHandler.dispatchTakePictureIntent();
+                mInterface.getPhotoHandler().dispatchTakePictureIntent();
             }
         });
 
