@@ -5,16 +5,6 @@
     android:layout_height="match_parent"
     android:background="@color/background">
 
-<<<<<<< HEAD
-=======
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/dog"
-        android:id="@+id/pic_view"
-        />
-
->>>>>>> 78252b4d3bcba888105f74171c2232781c238c44
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
