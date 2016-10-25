@@ -3,4 +3,5 @@
     <string name="snap_pic">Snap a pic!</string>
     <string name="choose_photo">Choose from your library</string>
     <string name="ind_url">https://apiv2.indico.io/fer</string>
+    <string name="app_name">MoodCookie</string>
 </resources>

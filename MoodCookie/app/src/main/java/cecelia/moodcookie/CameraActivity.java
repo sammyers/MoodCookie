@@ -51,14 +51,11 @@ public class CameraActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-            handleCameraPhoto(data);
+            handleCameraPhoto();
         }
     }
 
-    private void handleCameraPhoto(Intent intent) {
-        Bundle extras = intent.getExtras();
-        mImageBitmap = (Bitmap) extras.get("data");
-        mImageView.setImageBitmap(mImageBitmap);
-        mImageView.setVisibility(View.VISIBLE);
+    private void handleCameraPhoto() {
+
     }
 }
