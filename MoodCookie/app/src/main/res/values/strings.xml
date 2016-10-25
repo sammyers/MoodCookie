@@ -2,4 +2,5 @@
     <string name="take_picture_button">Snap a pic!</string>
     <string name="snap_pic">Snap a pic!</string>
     <string name="choose_photo">Choose from your library</string>
+    <string name="ind_url">https://apiv2.indico.io/fer</string>
 </resources>
