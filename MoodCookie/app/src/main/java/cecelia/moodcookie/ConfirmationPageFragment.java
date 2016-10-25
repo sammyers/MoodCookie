@@ -14,7 +14,7 @@ import cecelia.moodcookie.camera.CameraInterface;
 
 public class ConfirmationPageFragment extends Fragment {
 
-    private CameraInterface mInterface;
+    private MainActivity mainActivity;
 
     public static final String TAG = "ConfirmationFragment";
 
@@ -26,12 +26,12 @@ public class ConfirmationPageFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
-        mInterface = (CameraInterface) getActivity();
+        mainActivity = (MainActivity) getActivity();
 
         View view = inflater.inflate(R.layout.confirmation_fragment, container, false);
 
         mImageView = (ImageView) view.findViewById(R.id.pic_view);
-        mInterface.getPhotoHandler().setPhoto(mImageView);
+        mainActivity.getPhotoHandler().setPhoto(mImageView);
 
         yesButton = (ImageButton) view.findViewById(R.id.yes_pic);
         noButton = (ImageButton) view.findViewById(R.id.no_pic);
@@ -45,14 +45,14 @@ public class ConfirmationPageFragment extends Fragment {
         this.yesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG, "yes clicked");
+                mainActivity.startDisplayPageFragment();
             }
         });
 
         this.noButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG, "no clicked");
+                mainActivity.startHomepageFragment();
             }
         });
     }

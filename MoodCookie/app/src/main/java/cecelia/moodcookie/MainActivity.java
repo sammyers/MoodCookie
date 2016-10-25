@@ -16,16 +16,15 @@ import cecelia.moodcookie.camera.CameraInterface;
 import cecelia.moodcookie.camera.PhotoHandler;
 import cecelia.moodcookie.db.NoteDatabaseHelper;
 import cecelia.moodcookie.types.Note;
-public class MainActivity extends AppCompatActivity implements CameraInterface {
+public class MainActivity extends AppCompatActivity {
 
     static final String TAG = "MainActivity";
 
     NoteDatabaseHelper dbHelper;
     private PhotoHandler photoHandler;
-
-    static final int SELECT_GALLERY_IMAGE = 1;
+    
     IndicoHandler indicoHandler;
-
+    static final int SELECT_GALLERY_IMAGE = 2;
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
     private FragmentManager fragmentManager;
