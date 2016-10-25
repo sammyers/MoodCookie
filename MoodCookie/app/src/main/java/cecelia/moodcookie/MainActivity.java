@@ -1,9 +1,13 @@
 package cecelia.moodcookie;
 
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.database.Cursor;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,9 +20,14 @@ import cecelia.moodcookie.types.Note;
 
 public class MainActivity extends AppCompatActivity {
 
+    static final String TAG = "MainActivity";
+
     NoteDatabaseHelper dbHelper;
 
     private Bitmap mImageBitmap;
+    static final int SELECT_GALLERY_IMAGE = 1;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         this.dbHelper = new NoteDatabaseHelper(this);
+        this.fragmentManager = getFragmentManager();
 
         // read notes from the database
         ArrayList<Note> notes = dbHelper.getAllNotes();
@@ -35,33 +45,49 @@ public class MainActivity extends AppCompatActivity {
         }
 
         startHomepageFragment();
-
-    }
-
-    public void startHomepageFragment() {
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_holder, new HomepageFragment(), "CURRENT_FRAGMENT");
-        fragmentTransaction.commit();
-    }
-
-    public void startConfirmationPageFragment() {
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_holder, new ConfirmationPageFragment(), "CURRENT_FRAGMENT");
-        fragmentTransaction.commit();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            handleCameraPhoto(data);
-        }
     }
 
     private void handleCameraPhoto(Intent intent) {
         Bundle extras = intent.getExtras();
         this.mImageBitmap = (Bitmap) extras.get("data");
         startConfirmationPageFragment();
+    }
+    private void startFragment(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = this.fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_holder, fragment, "CURRENT_FRAGMENT");
+        fragmentTransaction.commit();
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == SELECT_GALLERY_IMAGE) {
+                Uri selectedImageUri = data.getData();
+                String selectedImagePath = getPath(selectedImageUri);
+            } else if (requestCode == REQUEST_IMAGE_CAPTURE) {
+                handleCameraPhoto(data);
+            }
+        }
+    }
+
+    public String getPath(Uri uri) {
+        // just some safety built in
+        if( uri == null ) {
+            Log.d(TAG, "The chosen image was invalid.");
+            return null;
+        }
+        // this is our fallback here
+        return uri.getPath();
+    }
+
+    public void startDisplayPageFragment() {
+        startFragment(new DisplayPageFragment());
+    }
+
+    public void startHomepageFragment() {
+        startFragment(new HomepageFragment());
+    }
+
+    public void startConfirmationPageFragment() {
+        startFragment(new ConfirmationPageFragment());
     }
 }
