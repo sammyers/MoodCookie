@@ -73,18 +73,11 @@ public class PhotoHandler {
     }
 
     public void setPhoto(ImageView imageView) {
-        if (mCurrentPhotoUri != null) {
-            imageView.setImageURI(mCurrentPhotoUri);
-        } else if (mCurrentPhotoPath != null) {
-            Bitmap imageBitmap = BitmapFactory.decodeFile(mCurrentPhotoPath);
-            int width = imageBitmap.getWidth();
-            int height = imageBitmap.getHeight();
-
-            Matrix matrix = new Matrix();
-            matrix.postRotate(90);
-
-            Bitmap rotatedBitmap = Bitmap.createBitmap(imageBitmap, 0, 0, width, height, matrix, true);
-            imageView.setImageBitmap(rotatedBitmap);
+//        if (mCurrentPhotoUri != null) {
+//            imageView.setImageURI(mCurrentPhotoUri);
+//        } else if (mCurrentPhotoPath != null) {
+        if (mCurrentPhotoPath != null) {
+            imageView.setImageBitmap(getBitmap());
         }
     }
 
@@ -96,27 +89,29 @@ public class PhotoHandler {
         mCurrentPhotoPath = path;
     }
 
-    public void setPhotoUri(Uri uri) {
-        mCurrentPhotoUri = uri;
-    }
+//    public void setPhotoUri(Uri uri) {
+//        mCurrentPhotoUri = uri;
+//    }
 
     public Bitmap getBitmap() {
-        if (mCurrentPhotoUri != null) {
-            try {
-                return MediaStore.Images.Media.getBitmap(context.getContentResolver(), mCurrentPhotoUri);
-            } catch (java.io.IOException e) {
-                Log.d("PhotoHandler", e.toString());
-            }
-
-        }
+//        if (mCurrentPhotoUri != null) {
+//            try {
+//                return MediaStore.Images.Media.getBitmap(context.getContentResolver(), mCurrentPhotoUri);
+//            } catch (java.io.IOException e) {
+//                Log.d("PhotoHandler", e.toString());
+//            }
+//
+//        }
         Bitmap imageBitmap = BitmapFactory.decodeFile(mCurrentPhotoPath);
         int width = imageBitmap.getWidth();
         int height = imageBitmap.getHeight();
-
-        Matrix matrix = new Matrix();
-        matrix.postRotate(90);
-
-        Bitmap rotatedBitmap = Bitmap.createBitmap(imageBitmap, 0, 0, width, height, matrix, true);
-        return rotatedBitmap;
+        if (width > height) {
+            Matrix matrix = new Matrix();
+            matrix.postRotate(90);
+            Bitmap rotatedBitmap = Bitmap.createBitmap(imageBitmap, 0, 0, width, height, matrix, true);
+            return rotatedBitmap;
+        } else {
+            return imageBitmap;
+        }
     }
 }
