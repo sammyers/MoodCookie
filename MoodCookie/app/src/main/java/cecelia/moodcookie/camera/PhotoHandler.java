@@ -77,4 +77,12 @@ public class PhotoHandler {
             imageView.setImageBitmap(rotatedBitmap);
         }
     }
+
+    public String getPhotoPath() {
+        return mCurrentPhotoPath;
+    }
+
+    public void setPhotoPath(String path) {
+        mCurrentPhotoPath = path;
+    }
 }

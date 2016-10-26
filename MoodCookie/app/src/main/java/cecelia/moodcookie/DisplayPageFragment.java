@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import cecelia.moodcookie.camera.PhotoHandler;
 
@@ -17,6 +18,8 @@ public class DisplayPageFragment extends Fragment {
 
     private ImageButton backButton;
     private ImageButton saveButton;
+    private MainActivity mainActivity;
+    private ImageView imageView;
 
     public DisplayPageFragment() {}
 
@@ -25,6 +28,12 @@ public class DisplayPageFragment extends Fragment {
 
         this.backButton = (ImageButton) view.findViewById(R.id.back_to_homepage);
         this.saveButton = (ImageButton) view.findViewById(R.id.save_mookie);
+
+//        backButton = (ImageButton) view.findViewById(R.id.back_to_homepage);
+//        mainActivity = (MainActivity) getActivity();
+        imageView = (ImageView) view.findViewById(R.id.display_image_view);
+
+        mainActivity.getPhotoHandler().setPhoto(imageView);
 
         setOnClickListenerBack();
         setOnClickListenerSave();
@@ -36,8 +45,7 @@ public class DisplayPageFragment extends Fragment {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MainActivity activity = (MainActivity) getActivity();
-                activity.startHomepageFragment();
+                mainActivity.startHomepageFragment();
             }
         });
     }

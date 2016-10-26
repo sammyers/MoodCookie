@@ -15,17 +15,16 @@ import java.util.ArrayList;
 import cecelia.moodcookie.camera.CameraInterface;
 import cecelia.moodcookie.camera.PhotoHandler;
 import cecelia.moodcookie.db.NoteDatabaseHelper;
-import cecelia.moodcookie.types.Mood;
 import cecelia.moodcookie.types.Note;
-public class MainActivity extends AppCompatActivity implements CameraInterface {
+public class MainActivity extends AppCompatActivity {
 
     static final String TAG = "MainActivity";
 
     NoteDatabaseHelper dbHelper;
     private PhotoHandler photoHandler;
-    private Bitmap mImageBitmap;
-    static final int SELECT_GALLERY_IMAGE = 1;
-    static final int REQUEST_IMAGE_CAPTURE = 2;
+
+    static final int SELECT_GALLERY_IMAGE = 2;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
 
     private FragmentManager fragmentManager;
 
@@ -55,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements CameraInterface {
 
     private void startFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = this.fragmentManager.beginTransaction();
+//        fragmentTransaction.setCustomAnimations(R.animator.enter_from_left, R.animator.exit_to_right);
         fragmentTransaction.replace(R.id.fragment_holder, fragment, "CURRENT_FRAGMENT");
         fragmentTransaction.commit();
     }

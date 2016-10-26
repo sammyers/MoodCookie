@@ -4,12 +4,6 @@
     android:layout_height="match_parent"
     android:background="@color/background">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="250dp"
-        android:src="@drawable/placeholder"
-        android:id="@+id/imageView" />
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,7 +13,7 @@
         android:textSize="30sp"
         android:textStyle="bold"
         android:layout_margin="@dimen/medium_margin"
-        android:layout_below="@+id/imageView"/>
+        android:layout_below="@+id/display_image_view"/>
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -38,5 +32,14 @@
         android:id="@+id/save_mookie"
         android:layout_alignTop="@+id/back_to_homepage"
         android:layout_alignEnd="@+id/note" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="250dp"
+        android:src="@drawable/placeholder2"
+        android:id="@+id/display_image_view"
+        android:adjustViewBounds="false"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
