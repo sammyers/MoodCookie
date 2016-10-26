@@ -6,26 +6,17 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
+import android.util.Log;
 import android.widget.ImageView;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import cecelia.moodcookie.MainActivity;
-import cecelia.moodcookie.R;
-
-/**
- * Created by smyers on 10/20/2016.
- */
 
 public class PhotoHandler {
 
@@ -34,6 +25,7 @@ public class PhotoHandler {
     public int SELECT_GALLERY_IMAGE = 2;
     private String mCurrentPhotoPath;
     private Uri mCurrentPhotoUri;
+    private Bitmap mCurrentBitMap;
 
     public PhotoHandler(Context context) {
         this.context = context;
@@ -81,7 +73,9 @@ public class PhotoHandler {
     }
 
     public void setPhoto(ImageView imageView) {
-        if (mCurrentPhotoPath != null) {
+        if (mCurrentPhotoUri != null) {
+            imageView.setImageURI(mCurrentPhotoUri);
+        } else if (mCurrentPhotoPath != null) {
             Bitmap imageBitmap = BitmapFactory.decodeFile(mCurrentPhotoPath);
             int width = imageBitmap.getWidth();
             int height = imageBitmap.getHeight();
@@ -91,8 +85,6 @@ public class PhotoHandler {
 
             Bitmap rotatedBitmap = Bitmap.createBitmap(imageBitmap, 0, 0, width, height, matrix, true);
             imageView.setImageBitmap(rotatedBitmap);
-        } else if (mCurrentPhotoUri != null) {
-            imageView.setImageURI(mCurrentPhotoUri);
         }
     }
 
@@ -106,5 +98,25 @@ public class PhotoHandler {
 
     public void setPhotoUri(Uri uri) {
         mCurrentPhotoUri = uri;
+    }
+
+    public Bitmap getBitmap() {
+        if (mCurrentPhotoUri != null) {
+            try {
+                return MediaStore.Images.Media.getBitmap(context.getContentResolver(), mCurrentPhotoUri);
+            } catch (java.io.IOException e) {
+                Log.d("PhotoHandler", e.toString());
+            }
+
+        }
+        Bitmap imageBitmap = BitmapFactory.decodeFile(mCurrentPhotoPath);
+        int width = imageBitmap.getWidth();
+        int height = imageBitmap.getHeight();
+
+        Matrix matrix = new Matrix();
+        matrix.postRotate(90);
+
+        Bitmap rotatedBitmap = Bitmap.createBitmap(imageBitmap, 0, 0, width, height, matrix, true);
+        return rotatedBitmap;
     }
 }

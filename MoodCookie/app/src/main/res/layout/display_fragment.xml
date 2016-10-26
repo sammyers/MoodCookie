@@ -8,9 +8,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/note"
-        android:text="As Plato said, when the power goes out, so does your soul."
+        android:text=""
         android:textAlignment="center"
-        android:textSize="30sp"
+        android:textSize="10sp"
         android:textStyle="bold"
         android:layout_margin="@dimen/medium_margin"
         android:layout_below="@+id/display_image_view"/>

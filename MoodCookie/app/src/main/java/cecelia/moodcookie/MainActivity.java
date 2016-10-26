@@ -4,23 +4,14 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.util.ArrayList;
-
-import cecelia.moodcookie.camera.CameraInterface;
 import cecelia.moodcookie.camera.PhotoHandler;
 import cecelia.moodcookie.db.NoteDatabaseHelper;
-import cecelia.moodcookie.types.Note;
 public class MainActivity extends AppCompatActivity {
 
     static final String TAG = "MainActivity";
@@ -41,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         dbHelper = new NoteDatabaseHelper(this);
         photoHandler = new PhotoHandler(this);
         fragmentManager = getFragmentManager();
+        indicoHandler = new IndicoHandler(this);
 
         startHomepageFragment();
 
@@ -53,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private void handleGalleryPhoto(Intent data) {
         Uri selectedImageUri = data.getData();
         photoHandler.setPhotoUri(selectedImageUri);
+        photoHandler.setPhotoPath(getPath(selectedImageUri));
         startConfirmationPageFragment();
     }
 
@@ -85,7 +78,27 @@ public class MainActivity extends AppCompatActivity {
         startFragment(new ConfirmationPageFragment());
     }
 
+    public String getPath(Uri uri) {
+        // just some safety built in
+        if (uri == null) {
+            Log.d(TAG, "The chosen image was invalid.");
+            return null;
+        }
+        // this is our fallback here
+        return uri.getPath();
+    }
+
     public PhotoHandler getPhotoHandler() {
         return photoHandler;
+    }
+
+    public IndicoHandler getIndicoHandler() {
+        return indicoHandler;
+    }
+
+    public void prepareDisplayPage() {
+        Bitmap bm = this.getPhotoHandler().getBitmap();
+        this.indicoHandler.setBitmap(bm);
+        this.indicoHandler.analyzePicture();
     }
 }

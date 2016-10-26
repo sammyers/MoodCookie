@@ -1,6 +1,7 @@
 package cecelia.moodcookie;
 
 import android.app.Fragment;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -45,7 +46,7 @@ public class ConfirmationPageFragment extends Fragment {
         this.yesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mainActivity.startDisplayPageFragment();
+                mainActivity.prepareDisplayPage();
             }
         });
 

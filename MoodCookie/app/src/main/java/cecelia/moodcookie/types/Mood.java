@@ -8,15 +8,15 @@ public enum Mood {
     public static Mood getMood(String mood) {
         if (mood == "Angry") {
             return ANGRY;
-        } else if (mood == "Happy") {
+        } else if (mood.equals("Happy")) {
             return HAPPY;
-        } else if (mood == "Sad") {
+        } else if (mood.equals("Sad")) {
             return SAD;
-        } else if (mood == "Fear") {
+        } else if (mood.equals("Fear")) {
             return FEAR;
-        } else if (mood == "Surprise") {
+        } else if (mood.equals("Surprise")) {
             return SURPRISE;
-        } else if (mood == "Neutral") {
+        } else if (mood.equals("Neutral")) {
             return NEUTRAL;
         }
         throw new NullPointerException("There is no such mood");

@@ -2,14 +2,8 @@ package cecelia.moodcookie;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Base64;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -26,15 +20,19 @@ import cecelia.moodcookie.types.MySingleton;
 
 public class IndicoHandler {
     Context context;
-    final String APIKey = "";//BuildConfig.API_KEY;
-    String url = context.getString(cecelia.moodcookie.R.string.ind_url); //url for Indico's facial emotion recognition
-    String max_emotion = "";
+    final String APIKey = "81e3924bed92ba1e66e075e6efe557a3";//BuildConfig.API_KEY;
+    String url; //url for Indico's facial emotion recognition
+    String maxEmotion;
+    Bitmap bm;
 
     public IndicoHandler(Context context) {
+        url = context.getString(cecelia.moodcookie.R.string.ind_url);
         this.context = context;
+        maxEmotion = "";
+        bm = null;
     }
 
-    public String analyzePicture(final String filepath) {
+    public void analyzePicture() {
     StringRequest postRequest=new StringRequest(Request.Method.POST,url,new Response.Listener<String>() {
         @Override
         public void onResponse(String response) {
@@ -48,9 +46,10 @@ public class IndicoHandler {
                 Float val = Float.parseFloat(separated[1]); //convert from string into float
                 if (val > max_val){ //this conditional will tell us what emotion is most prevalent in the image
                     max_val = val;
-                    max_emotion = key;
+                    maxEmotion = key;
                 }
                 emotionDict.put(key,val); //put key/value pairs in map
+                ((MainActivity)context).startDisplayPageFragment();
             }
         }
     }, new Response.ErrorListener() {
@@ -63,13 +62,16 @@ public class IndicoHandler {
             protected Map<String, String> getParams() throws AuthFailureError {
             Map<String,String> params= new HashMap<>(); //only params are data (picture in base64)
     //        Bitmap bm = BitmapFactory.decodeResource(getResources(),R.drawable.happy_lady); //decode picture
-            Bitmap bm = BitmapFactory.decodeFile(filepath); //decode picture
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bm.compress(Bitmap.CompressFormat.JPEG, 100, baos); //compress data stream
-            byte[] byteArray = baos.toByteArray();
-            String encodedImage = Base64.encodeToString(byteArray, Base64.DEFAULT); //create string via Base64
-            params.put("data",encodedImage); //put data into params list
-            return params;
+            if (bm != null) {
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bm.compress(Bitmap.CompressFormat.JPEG, 100, baos); //compress data stream
+                byte[] byteArray = baos.toByteArray();
+                String encodedImage = Base64.encodeToString(byteArray, Base64.DEFAULT); //create string via Base64
+                params.put("data",encodedImage); //put data into params list
+                return params;
+            } else {
+                throw new NullPointerException("there is not bitmap in the indico api handler");
+            }
     }
         @Override
         public Map<String, String> getHeaders() throws AuthFailureError {
@@ -79,6 +81,17 @@ public class IndicoHandler {
         }
     };
         MySingleton.getInstance(context).addToRequestQueue(postRequest);
-        return max_emotion; //return max emotion
+    }
+
+    public void setBitmap(Bitmap bitmap) {
+        bm = bitmap;
+    }
+
+    public void setBitmapFromPath(String path) {
+        bm = BitmapFactory.decodeFile(path);
+    }
+
+    public String getMaxEmotion() {
+        return maxEmotion;
     }
 }
