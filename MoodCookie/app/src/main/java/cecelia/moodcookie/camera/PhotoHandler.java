@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -13,9 +14,14 @@ import android.support.v4.content.FileProvider;
 import android.widget.ImageView;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import cecelia.moodcookie.MainActivity;
+import cecelia.moodcookie.R;
 
 /**
  * Created by smyers on 10/20/2016.
@@ -24,8 +30,10 @@ import java.util.Date;
 public class PhotoHandler {
 
     private Context context;
-    private int REQUEST_IMAGE_CAPTURE = 1;
+    public int REQUEST_IMAGE_CAPTURE = 1;
+    public int SELECT_GALLERY_IMAGE = 2;
     private String mCurrentPhotoPath;
+    private Uri mCurrentPhotoUri;
 
     public PhotoHandler(Context context) {
         this.context = context;
@@ -64,6 +72,14 @@ public class PhotoHandler {
         }
     }
 
+    public void dispatchGalleryIntent() {
+        Intent galleryIntent = new Intent();
+        galleryIntent.setType("image/*");
+        galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+        ((Activity) context).startActivityForResult(Intent.createChooser(galleryIntent,
+                "Select Picture"), SELECT_GALLERY_IMAGE);
+    }
+
     public void setPhoto(ImageView imageView) {
         if (mCurrentPhotoPath != null) {
             Bitmap imageBitmap = BitmapFactory.decodeFile(mCurrentPhotoPath);
@@ -75,6 +91,8 @@ public class PhotoHandler {
 
             Bitmap rotatedBitmap = Bitmap.createBitmap(imageBitmap, 0, 0, width, height, matrix, true);
             imageView.setImageBitmap(rotatedBitmap);
+        } else if (mCurrentPhotoUri != null) {
+            imageView.setImageURI(mCurrentPhotoUri);
         }
     }
 
@@ -84,5 +102,9 @@ public class PhotoHandler {
 
     public void setPhotoPath(String path) {
         mCurrentPhotoPath = path;
+    }
+
+    public void setPhotoUri(Uri uri) {
+        mCurrentPhotoUri = uri;
     }
 }
