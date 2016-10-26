@@ -14,8 +14,8 @@ import cecelia.moodcookie.types.Note;
 
 public class NoteDatabaseHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 1;
-    public static final String DATABASE_NAME = "Notes.db";
+    private static final int DATABASE_VERSION = 1;
+    private static final String DATABASE_NAME = "Notes.db";
 
     private static final String TEXT_TYPE = " TEXT";
     private static final String COMMA_SEP = ",";
@@ -35,6 +35,7 @@ public class NoteDatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_CREATE_ENTRIES);
     }
+
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // This database is only a cache for online data, so its upgrade policy is
         // to simply to discard the data and start over
@@ -54,45 +55,17 @@ public class NoteDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public ArrayList<Note> getAllNotes() {
-        SQLiteDatabase db = getReadableDatabase();
-        String[] projection = {
-                NoteContract.NoteEntry._ID,
-                NoteContract.NoteEntry.COLUMN_NAME_TEXT,
-                NoteContract.NoteEntry.COLUMN_NAME_MOOD
-        };
-
-        String sortOrder = NoteContract.NoteEntry.COLUMN_NAME_TEXT + " DESC";
-
-        Cursor cursor = db.query(
-                NoteContract.NoteEntry.TABLE_NAME,   // The table to query
-                projection,                          // The columns to return
-                null,                                // The columns for the WHERE clause
-                null,                                // The values for the WHERE clause
-                null,                                // don't group the rows
-                null,                                // don't filter by row groups
-                sortOrder                            // The sort order
-        );
-
-        final ArrayList<Note> allNotes = new ArrayList<>();
-
-        if (cursor.moveToFirst()) {
-            do {
-                long id = cursor.getLong(cursor.getColumnIndex(NoteContract.NoteEntry._ID));
-                String text = cursor.getString(cursor.getColumnIndex(NoteContract.NoteEntry.COLUMN_NAME_TEXT));
-                String mood = cursor.getString(cursor.getColumnIndex(NoteContract.NoteEntry.COLUMN_NAME_MOOD));
-
-                allNotes.add(new Note(id, text, mood));
-                cursor.moveToNext();
-            } while (!cursor.isLast());
-        }
-
-        cursor.close();
-        db.close();
-
-        return allNotes;
+        return getNotes(null, null);
     }
 
+
     public ArrayList<Note> getNotesByMood(Mood mood) {
+        String selection = NoteContract.NoteEntry.COLUMN_NAME_MOOD + " = ?";
+        String[] selectionArgs = {mood.toString()};
+        return getNotes(selection, selectionArgs);
+    }
+
+    private ArrayList<Note> getNotes(String selection, String[] selectionArgs) {
         SQLiteDatabase db = getReadableDatabase();
         String[] projection = {
                 NoteContract.NoteEntry._ID,
@@ -100,10 +73,7 @@ public class NoteDatabaseHelper extends SQLiteOpenHelper {
                 NoteContract.NoteEntry.COLUMN_NAME_MOOD
         };
 
-        String selection = NoteContract.NoteEntry.COLUMN_NAME_MOOD + " = ?";
         String sortOrder = NoteContract.NoteEntry.COLUMN_NAME_TEXT + " DESC";
-        String[] selectionArgs = {mood.toString()};
-
         Cursor cursor = db.query(
                 NoteContract.NoteEntry.TABLE_NAME,   // The table to query
                 projection,                          // The columns to return
@@ -114,14 +84,15 @@ public class NoteDatabaseHelper extends SQLiteOpenHelper {
                 sortOrder                            // The sort order
         );
 
-        final ArrayList<Note> allNotes = new ArrayList<>();
+        final ArrayList<Note> notes = new ArrayList<>();
 
         if (cursor.moveToFirst()) {
             do {
                 long id = cursor.getLong(cursor.getColumnIndex(NoteContract.NoteEntry._ID));
                 String text = cursor.getString(cursor.getColumnIndex(NoteContract.NoteEntry.COLUMN_NAME_TEXT));
+                String mood = cursor.getString(cursor.getColumnIndex(NoteContract.NoteEntry.COLUMN_NAME_MOOD));
 
-                allNotes.add(new Note(id, text, mood.toString()));
+                notes.add(new Note(id, text, mood));
                 cursor.moveToNext();
             } while (!cursor.isLast());
         }
@@ -129,7 +100,7 @@ public class NoteDatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         db.close();
 
-        return allNotes;
+        return notes;
     }
 
 }

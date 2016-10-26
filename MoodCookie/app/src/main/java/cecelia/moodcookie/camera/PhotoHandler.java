@@ -24,8 +24,6 @@ public class PhotoHandler {
     public int REQUEST_IMAGE_CAPTURE = 1;
     public int SELECT_GALLERY_IMAGE = 2;
     private String mCurrentPhotoPath;
-    private Uri mCurrentPhotoUri;
-    private Bitmap mCurrentBitMap;
 
     public PhotoHandler(Context context) {
         this.context = context;
@@ -50,7 +48,9 @@ public class PhotoHandler {
             File photoFile = null;
             try {
                 photoFile = createImageFile();
-            } catch (IOException ex) { }
+            } catch (IOException ex) {
+                Log.d("PhotoHandler", ex.toString());
+            }
 
             if (photoFile != null) {
                 Uri photoURI = FileProvider.getUriForFile(
@@ -73,43 +73,23 @@ public class PhotoHandler {
     }
 
     public void setPhoto(ImageView imageView) {
-//        if (mCurrentPhotoUri != null) {
-//            imageView.setImageURI(mCurrentPhotoUri);
-//        } else if (mCurrentPhotoPath != null) {
         if (mCurrentPhotoPath != null) {
             imageView.setImageBitmap(getBitmap());
         }
-    }
-
-    public String getPhotoPath() {
-        return mCurrentPhotoPath;
     }
 
     public void setPhotoPath(String path) {
         mCurrentPhotoPath = path;
     }
 
-//    public void setPhotoUri(Uri uri) {
-//        mCurrentPhotoUri = uri;
-//    }
-
     public Bitmap getBitmap() {
-//        if (mCurrentPhotoUri != null) {
-//            try {
-//                return MediaStore.Images.Media.getBitmap(context.getContentResolver(), mCurrentPhotoUri);
-//            } catch (java.io.IOException e) {
-//                Log.d("PhotoHandler", e.toString());
-//            }
-//
-//        }
         Bitmap imageBitmap = BitmapFactory.decodeFile(mCurrentPhotoPath);
         int width = imageBitmap.getWidth();
         int height = imageBitmap.getHeight();
         if (width > height) {
             Matrix matrix = new Matrix();
             matrix.postRotate(90);
-            Bitmap rotatedBitmap = Bitmap.createBitmap(imageBitmap, 0, 0, width, height, matrix, true);
-            return rotatedBitmap;
+            return Bitmap.createBitmap(imageBitmap, 0, 0, width, height, matrix, true);
         } else {
             return imageBitmap;
         }

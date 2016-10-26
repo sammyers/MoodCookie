@@ -31,16 +31,20 @@ public class ConfirmationPageFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.confirmation_fragment, container, false);
 
-        mImageView = (ImageView) view.findViewById(R.id.pic_view);
-        mainActivity.getPhotoHandler().setPhoto(mImageView);
-
-        yesButton = (ImageButton) view.findViewById(R.id.yes_pic);
-        noButton = (ImageButton) view.findViewById(R.id.no_pic);
+        setUpViews(view);
 
         setOnClickListeners();
 
         return view;
     }
+
+    public void setUpViews(View view) {
+        yesButton = (ImageButton) view.findViewById(R.id.yes_pic);
+        noButton = (ImageButton) view.findViewById(R.id.no_pic);
+        mImageView = (ImageView) view.findViewById(R.id.pic_view);
+        mainActivity.getPhotoHandler().setPhoto(mImageView);
+    }
+
 
     private void setOnClickListeners() {
         this.yesButton.setOnClickListener(new View.OnClickListener() {
@@ -57,4 +61,5 @@ public class ConfirmationPageFragment extends Fragment {
             }
         });
     }
+
 }

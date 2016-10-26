@@ -27,31 +27,33 @@ public class DisplayPageFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.display_fragment, container, false);
+        getViews(view);
+        mainActivity.getPhotoHandler().setPhoto(imageView);
+        setNote();
+        setOnClickListeners();
+        return view;
+    }
 
+    private void getViews(View view) {
         backButton = (ImageButton) view.findViewById(R.id.back_to_homepage);
         mainActivity = (MainActivity) getActivity();
         imageView = (ImageView) view.findViewById(R.id.display_image_view);
         noteView = (TextView) view.findViewById(R.id.note);
-
-        mainActivity.getPhotoHandler().setPhoto(imageView);
-
-        String mood = getMainActivity().getIndicoHandler().getMaxEmotion();
-        Note note = pickNote(mood);
-
-        noteView.setText(note.getText());
-
-        setOnClickListeners();
-
-        return view;
     }
 
-    public void setOnClickListeners() {
+    private void setOnClickListeners() {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mainActivity.startHomepageFragment();
             }
         });
+    }
+
+    public void setNote() {
+        String mood = getMainActivity().getIndicoHandler().getMaxEmotion();
+        Note note = pickNote(mood);
+        noteView.setText(note.getText());
     }
 
     private Note pickNote(String moodString) {
