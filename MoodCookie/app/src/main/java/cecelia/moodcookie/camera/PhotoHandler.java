@@ -91,8 +91,6 @@ public class PhotoHandler {
 
             Bitmap rotatedBitmap = Bitmap.createBitmap(imageBitmap, 0, 0, width, height, matrix, true);
             imageView.setImageBitmap(rotatedBitmap);
-        } else if (mCurrentPhotoUri != null) {
-            imageView.setImageURI(mCurrentPhotoUri);
         }
     }
 

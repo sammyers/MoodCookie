@@ -4,18 +4,24 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.jar.Manifest;
 
 import cecelia.moodcookie.camera.CameraInterface;
 import cecelia.moodcookie.camera.PhotoHandler;
@@ -24,6 +30,7 @@ import cecelia.moodcookie.types.Note;
 public class MainActivity extends AppCompatActivity {
 
     static final String TAG = "MainActivity";
+    static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 3;
 
     NoteDatabaseHelper dbHelper;
     private PhotoHandler photoHandler;
@@ -32,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
     private FragmentManager fragmentManager;
+
+    private String document_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager = getFragmentManager();
 
         startHomepageFragment();
-
     }
 
     private void handleCameraPhoto() {
@@ -52,8 +60,45 @@ public class MainActivity extends AppCompatActivity {
 
     private void handleGalleryPhoto(Intent data) {
         Uri selectedImageUri = data.getData();
-        photoHandler.setPhotoUri(selectedImageUri);
-        startConfirmationPageFragment();
+
+        Cursor cursor = getContentResolver().query(selectedImageUri, null, null, null, null);
+        cursor.moveToFirst();
+        document_id = cursor.getString(0);
+        document_id = document_id.substring(document_id.lastIndexOf(":") + 1);
+        cursor.close();
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)) {
+
+                } else {
+                    ActivityCompat.requestPermissions(this,
+                            new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE},
+                            MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Cursor cursor = getContentResolver().query(
+                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                            null, MediaStore.Images.Media._ID + " = ? ",
+                            new String[]{document_id}, null
+                    );
+                    cursor.moveToFirst();
+
+                    String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+                    photoHandler.setPhotoPath(path);
+                    startConfirmationPageFragment();
+                }
+                return;
+            }
+        }
     }
 
     private void startFragment(Fragment fragment) {
