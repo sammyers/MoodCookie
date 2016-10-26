@@ -31,7 +31,7 @@ public class PhotoHandler {
         this.context = context;
     }
 
-    private File createImageFile() throws IOException {
+    public File createImageFile() throws IOException {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
@@ -50,7 +50,8 @@ public class PhotoHandler {
             File photoFile = null;
             try {
                 photoFile = createImageFile();
-            } catch (IOException ex) { }
+            } catch (IOException ex) {
+            }
 
             if (photoFile != null) {
                 Uri photoURI = FileProvider.getUriForFile(
@@ -64,7 +65,7 @@ public class PhotoHandler {
         }
     }
 
-    public void setPhoto(ImageView imageView) {
+    public void setPhoto(ImageView imageView) { //sets passed-in image view to current photo
         if (mCurrentPhotoPath != null) {
             Bitmap imageBitmap = BitmapFactory.decodeFile(mCurrentPhotoPath);
             int width = imageBitmap.getWidth();
@@ -85,4 +86,5 @@ public class PhotoHandler {
     public void setPhotoPath(String path) {
         mCurrentPhotoPath = path;
     }
+
 }
