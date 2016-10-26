@@ -1,7 +1,7 @@
 package cecelia.moodcookie;
 
 import android.app.Fragment;
-import android.media.Image;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import cecelia.moodcookie.camera.CameraInterface;
+
 
 public class ConfirmationPageFragment extends Fragment {
 
@@ -30,22 +31,26 @@ public class ConfirmationPageFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.confirmation_fragment, container, false);
 
-        mImageView = (ImageView) view.findViewById(R.id.pic_view);
-        mainActivity.getPhotoHandler().setPhoto(mImageView);
-
-        yesButton = (ImageButton) view.findViewById(R.id.yes_pic);
-        noButton = (ImageButton) view.findViewById(R.id.no_pic);
+        setUpViews(view);
 
         setOnClickListeners();
 
         return view;
     }
 
+    public void setUpViews(View view) {
+        yesButton = (ImageButton) view.findViewById(R.id.yes_pic);
+        noButton = (ImageButton) view.findViewById(R.id.no_pic);
+        mImageView = (ImageView) view.findViewById(R.id.pic_view);
+        mainActivity.getPhotoHandler().setPhoto(mImageView);
+    }
+
+
     private void setOnClickListeners() {
         this.yesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mainActivity.startDisplayPageFragment();
+                mainActivity.prepareDisplayPage();
             }
         });
 
@@ -56,4 +61,5 @@ public class ConfirmationPageFragment extends Fragment {
             }
         });
     }
+
 }

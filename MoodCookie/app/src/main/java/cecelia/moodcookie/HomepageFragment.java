@@ -53,25 +53,12 @@ public class HomepageFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "Library button clicked.");
-                dispatchGalleryIntent();
+                mainActivity.getPhotoHandler().dispatchGalleryIntent();
             }
         });
     }
 
-    private void dispatchTakePictureIntent() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, MainActivity.REQUEST_IMAGE_CAPTURE);
-        }
-    }
 
-    private void dispatchGalleryIntent() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent,
-                "Select Picture"), MainActivity.SELECT_GALLERY_IMAGE);
-    }
 
     private MainActivity getMainActivity() {
         return (MainActivity) getActivity();
