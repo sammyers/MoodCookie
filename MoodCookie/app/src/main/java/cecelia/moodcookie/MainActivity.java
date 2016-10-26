@@ -44,7 +44,8 @@ public class MainActivity extends AppCompatActivity {
             Log.d("Main Activity", note.getText());
         }
 
-        startHomepageFragment();
+//        startHomepageFragment();
+        startDisplayPageFragment();
 
     }
 
