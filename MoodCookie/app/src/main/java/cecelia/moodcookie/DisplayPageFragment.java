@@ -2,6 +2,7 @@ package cecelia.moodcookie;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,14 +53,18 @@ public class DisplayPageFragment extends Fragment {
 
     public void setNote() {
         String mood = getMainActivity().getIndicoHandler().getMaxEmotion();
+        Log.d("MOOD***********", mood);
         Note note = pickNote(mood);
         noteView.setText(note.getText());
     }
 
     private Note pickNote(String moodString) {
         Mood mood = Mood.getMood(moodString);
+        mainActivity.dbHelper.addToDatabase(new Note("holla", Mood.HAPPY));
+        mainActivity.dbHelper.addToDatabase(new Note("bob", Mood.HAPPY));
         ArrayList<Note> notes = getMainActivity().dbHelper.getNotesByMood(mood);
         Random random = new Random();
+        Log.d("NOTE SIZE **********", String.valueOf(notes.size()));
         int position = random.nextInt(notes.size());
         Note note = notes.get(position);
         return note;

@@ -8,9 +8,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/note"
-        android:text=""
+        android:text="How's it going? Your Mood Cookie will be with you shortly."
         android:textAlignment="center"
-        android:textSize="10sp"
+        android:textSize="30sp"
         android:textStyle="bold"
         android:layout_margin="@dimen/medium_margin"
         android:layout_below="@+id/display_image_view"/>
