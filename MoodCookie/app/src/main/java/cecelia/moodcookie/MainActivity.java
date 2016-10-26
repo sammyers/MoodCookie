@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity implements CameraInterface {
     private PhotoHandler photoHandler;
     private Bitmap mImageBitmap;
     static final int SELECT_GALLERY_IMAGE = 1;
-    static final int REQUEST_IMAGE_CAPTURE = 1;
+    static final int REQUEST_IMAGE_CAPTURE = 2;
 
     private FragmentManager fragmentManager;
 
