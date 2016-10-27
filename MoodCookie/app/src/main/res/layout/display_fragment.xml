@@ -2,18 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/outerLayout"
     android:background="@color/background">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/note"
-        android:text="How's it going? Your Mood Cookie will be with you shortly."
-        android:textAlignment="center"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:layout_margin="@dimen/medium_margin"
-        android:layout_below="@+id/display_image_view"/>
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -24,12 +14,40 @@
         android:layout_marginBottom="@dimen/medium_margin"
         android:id="@+id/back_to_homepage"/>
 
-    <ImageView
+    <ImageButton
         android:layout_width="wrap_content"
-        android:layout_height="250dp"
-        android:src="@drawable/placeholder2"
-        android:id="@+id/display_image_view"
-        android:adjustViewBounds="false"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_height="wrap_content"
+        android:src="@drawable/download"
+        android:background="@color/background"
+        android:id="@+id/save_mookie"
+        android:layout_below="@+id/innerLayout"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/back_to_homepage"
+        android:id="@+id/innerLayout">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="250dp"
+            android:src="@drawable/placeholder2"
+            android:id="@+id/display_image_view"
+            android:adjustViewBounds="false"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/note"
+            android:text="How's it going? Your Mood Cookie will be with you shortly."
+            android:textAlignment="center"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:layout_margin="@dimen/medium_margin"
+            android:layout_below="@+id/display_image_view"/>
+    </RelativeLayout>
 </RelativeLayout>
