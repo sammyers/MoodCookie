@@ -19,9 +19,11 @@ public class CameraActivity extends AppCompatActivity {
 
     private static final int REQUEST_IMAGE_CAPTURE = 1;
 
+    // Looks like these resources are never used
     private static final String JPEG_FILE_PREFIX = "IMG_";
     private static final String JPEG_FILE_SUFFIX = ".jpg";
 
+    // Are these ever used?
     private ImageView mImageView;
     private Bitmap mImageBitmap;
 
@@ -30,8 +32,10 @@ public class CameraActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
 
+        // Do you ever do anything with this imageview?
         mImageView = (ImageView) findViewById(R.id.image_view);
 
+        // Try to use more descriptive variable names - both in Java and in XML
         Button button = (Button) findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,6 +59,7 @@ public class CameraActivity extends AppCompatActivity {
         }
     }
 
+    // Seems a little strange that this method isn't implemented
     private void handleCameraPhoto() {
 
     }

@@ -15,6 +15,10 @@ import cecelia.moodcookie.camera.CameraInterface;
 
 public class ConfirmationPageFragment extends Fragment {
 
+    /*
+     Instead of directly calling methods on the mainActivity and keeping reference to it, I'd recommend
+     defining an interface and using the MainActivity as an implementation of this interface instead
+      */
     private MainActivity mainActivity;
 
     public static final String TAG = "ConfirmationFragment";
@@ -39,6 +43,7 @@ public class ConfirmationPageFragment extends Fragment {
     }
 
     public void setUpViews(View view) {
+        // Butterknife would be good here - not super necessary to encapsulate this, but good thought
         yesButton = (ImageButton) view.findViewById(R.id.yes_pic);
         noButton = (ImageButton) view.findViewById(R.id.no_pic);
         mImageView = (ImageView) view.findViewById(R.id.pic_view);
